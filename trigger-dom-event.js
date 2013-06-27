@@ -13,7 +13,7 @@
     // canBubble: whether or not the event can bubble. Sets the value of event.bubbles.
     bubbles: true,
     // cancelable: whether or not the event's default action can be prevented. Sets the value of event.cancelable.
-    cancelable: false,
+    cancelable: true,
     // view: the Event's AbstractView. You should pass the window object here. Sets the value of event.view.
     view: window,
     // detail: the Event's mouse click count. Sets the value of event.detail.
@@ -41,11 +41,12 @@
   };
 
   var defaultProperties = {
-    click: merge(MOUSE_EVENT_TEMPLATE, {cancelable: true}),
+    click: MOUSE_EVENT_TEMPLATE,
     mouseover: MOUSE_EVENT_TEMPLATE,
     mouseout: MOUSE_EVENT_TEMPLATE,
     mousedown: MOUSE_EVENT_TEMPLATE,
-    mousemove: MOUSE_EVENT_TEMPLATE
+    mousemove: merge(MOUSE_EVENT_TEMPLATE, {cancelable: false}),
+    mouseup: MOUSE_EVENT_TEMPLATE
   };
 
   /**
@@ -114,6 +115,7 @@
     mousedown: 'MouseEvent',
     mouseover: 'MouseEvent',
     mousemove: 'MouseEvent',
-    mouseout: 'MouseEvent'
+    mouseout: 'MouseEvent',
+    mouseup: 'MouseEvent'
   };
 }(window, document));

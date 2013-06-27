@@ -45,14 +45,52 @@ describe("trigger MouseEvents", function() {
   });
 
   describe("mouseover", function() {
-    it('generates non-cancelable mouseover', function(done) {
+    it('generates cancelable event', function(done) {
       button.addEventListener('mouseover', function(event) {
-        expect(event.type).to.eql('mouseover');
-        expect(event.bubbles).to.eql(true);
-        expect(event.cancelable).to.eql(false);
+        expect(event.cancelable).to.eql(true);
         done();
       }, false);
       trigger(button, 'mouseover');
+    });
+  });
+
+  describe("mouseout", function() {
+    it('generates cancelable event', function(done) {
+      button.addEventListener('mouseout', function(event) {
+        expect(event.cancelable).to.eql(true);
+        done();
+      }, false);
+      trigger(button, 'mouseout');
+    });
+  });
+
+  describe("mousedown", function() {
+    it('generates cancelable event', function(done) {
+      button.addEventListener('mousedown', function(event) {
+        expect(event.cancelable).to.eql(true);
+        done();
+      }, false);
+      trigger(button, 'mousedown');
+    });
+  });
+
+  describe("mouseup", function() {
+    it('generates cancelable event', function(done) {
+      button.addEventListener('mouseup', function(event) {
+        expect(event.cancelable).to.eql(true);
+        done();
+      }, false);
+      trigger(button, 'mouseup');
+    });
+  });
+
+  describe("mousemove", function() {
+    it('generates non-cancelable event', function(done) {
+      button.addEventListener('mousemove', function(event) {
+        expect(event.cancelable).to.eql(false);
+        done();
+      }, false);
+      trigger(button, 'mousemove');
     });
   });
 });

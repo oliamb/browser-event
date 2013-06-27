@@ -9,9 +9,27 @@
     <p>click</p>
     <button class="clickable">Click Me</button>
     <button class="simulate-click">Simulate</button>
+
     <p>mouseover</p>
     <strong class="mouseover" style="background: silver">Mouse Over</strong>
     <button class="simulate-mouseover">Simulate</button>
+
+    <p>mousemove</p>
+    <strong class="mousemove" style="background: silver">Mouse Move</strong>
+    <button class="simulate-mousemove">Simulate</button>
+
+    <p>mouseout</p>
+    <strong class="mouseout" style="background: silver">Mouse Out</strong>
+    <button class="simulate-mouseout">Simulate</button>
+
+    <p>mousedown</p>
+    <button class="mousedown">Click Me</button>
+    <button class="simulate-mousedown">Simulate</button>
+
+    <p>mouseup</p>
+    <button class="mouseup">Release Me</button>
+    <button class="simulate-mouseup">Simulate</button>
+
   </div>
   <script>
   function logEvent(event) {
@@ -23,9 +41,29 @@
     trigger(document.querySelector('.clickable'), 'click');
   });
 
+  document.querySelector('.mousedown').addEventListener('mousedown', logEvent);
+  document.querySelector('.simulate-mousedown').addEventListener('click', function(){
+    trigger(document.querySelector('.mousedown'), 'mousedown');
+  });
+
+  document.querySelector('.mouseup').addEventListener('mouseup', logEvent);
+  document.querySelector('.simulate-mouseup').addEventListener('click', function(){
+    trigger(document.querySelector('.mouseup'), 'mouseup');
+  });
+
   document.querySelector('.mouseover').addEventListener('mouseover', logEvent);
   document.querySelector('.simulate-mouseover').addEventListener('click', function(){
     trigger(document.querySelector('.mouseover'), 'mouseover');
+  });
+
+  document.querySelector('.mouseout').addEventListener('mouseout', logEvent);
+  document.querySelector('.simulate-mouseout').addEventListener('click', function(){
+    trigger(document.querySelector('.mouseout'), 'mouseout');
+  });
+
+  document.querySelector('.mousemove').addEventListener('mousemove', logEvent);
+  document.querySelector('.simulate-mousemove').addEventListener('click', function(){
+    trigger(document.querySelector('.mousemove'), 'mousemove');
   });
   </script>
 </body>

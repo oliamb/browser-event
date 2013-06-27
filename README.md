@@ -3,9 +3,9 @@ Create and trigger DOM Event on specified element
 Uncomplete and unstable library.
 Don't use it today.
 
-== Currently Supported events ==
+## Currently Supported events
 
-=== MouseEvent ===
+### MouseEvent
 
 * click,
 * mouseup,

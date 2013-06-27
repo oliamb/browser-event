@@ -1,0 +1,22 @@
+<!doctype html>
+<html>
+<head>
+  <title>Example</title>
+  <script src="../trigger-dom-event.js"></script>
+</head>
+<body>
+  <div class="sample">
+    <button class="clickable">Click Me</button>
+    <button class="simulate-click">Simulate</button>
+  </div>
+  <script>
+  function logEvent(event) {
+    console.log('Event Triggered:', event.type, event);
+  }
+  document.querySelector('.clickable').addEventListener('click', logEvent)
+  document.querySelector('.simulate-click').addEventListener('click', function(){
+    trigger(document.querySelector('.clickable'), 'click');
+  })
+  </script>
+</body>
+</html>

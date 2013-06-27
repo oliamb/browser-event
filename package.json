@@ -9,5 +9,13 @@
   "repository": "",
   "author": "Olivier Amblet",
   "license": "MIT",
-  "gitHead": "ec16d20866a5819ddbb0a52572f2761d3c624653"
+  "gitHead": "ec16d20866a5819ddbb0a52572f2761d3c624653",
+  "devDependencies": {
+    "grunt": "~0.4.1",
+    "grunt-mocha": "*",
+    "mocha": "*",
+    "chai": "*",
+    "grunt-contrib-jshint": "~0.6.0",
+    "grunt-contrib-watch": "~0.4.4"
+  }
 }

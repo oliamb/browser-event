@@ -1,0 +1,13 @@
+{
+  "name": "trigger-dom-event",
+  "version": "0.0.1",
+  "description": "Create and trigger DOM Event on specified element",
+  "main": "trigger-dom-event.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": "",
+  "author": "Olivier Amblet",
+  "license": "MIT",
+  "gitHead": "ec16d20866a5819ddbb0a52572f2761d3c624653"
+}

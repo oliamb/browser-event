@@ -11,4 +11,7 @@ Create and trigger browser event
 * mousemove,
 * mouseover,
 * dblclick,
-* contextmenu
+* contextmenu,
+* mouseenter,
+* mouseleave,
+* show

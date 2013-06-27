@@ -2,13 +2,40 @@ var expect = chai.expect;
 
 describe("trigger MouseEvents", function() {
   var button;
+
+  // before/after
+
   beforeEach(function() {
     button = document.createElement('button');
     document.body.appendChild(button);
   });
+
   afterEach(function() {
     document.body.removeChild(button);
   });
+
+  // Helpers
+
+  function itBubbles(type, yes) {
+    it((yes ? 'bubbles' : 'does not bubble'), function(done) {
+      button.addEventListener(type, function(event) {
+        expect(event.bubbles).to.eql(yes);
+        done();
+      }, false);
+      trigger(button, type);
+    });
+  }
+  function itCanBeCanceled(type, yes) {
+    it((yes ? 'generate cancelable event' : 'generate non-cancelable event'), function(done) {
+      button.addEventListener(type, function(event) {
+        expect(event.cancelable).to.eql(yes);
+        done();
+      }, false);
+      trigger(button, type);
+    });
+  }
+
+  // Specs
 
   describe("click", function() {
     it('initiates a click with the default value', function(done) {
@@ -45,73 +72,53 @@ describe("trigger MouseEvents", function() {
   });
 
   describe("mouseover", function() {
-    it('generates cancelable event', function(done) {
-      button.addEventListener('mouseover', function(event) {
-        expect(event.cancelable).to.eql(true);
-        done();
-      }, false);
-      trigger(button, 'mouseover');
-    });
+    itCanBeCanceled(this.title, true);
+    itBubbles(this.title, true);
   });
 
   describe("mouseout", function() {
-    it('generates cancelable event', function(done) {
-      button.addEventListener('mouseout', function(event) {
-        expect(event.cancelable).to.eql(true);
-        done();
-      }, false);
-      trigger(button, 'mouseout');
-    });
+    itCanBeCanceled(this.title, true);
+    itBubbles(this.title, true);
   });
 
   describe("mousedown", function() {
-    it('generates cancelable event', function(done) {
-      button.addEventListener('mousedown', function(event) {
-        expect(event.cancelable).to.eql(true);
-        done();
-      }, false);
-      trigger(button, 'mousedown');
-    });
+    itCanBeCanceled(this.title, true);
+    itBubbles(this.title, true);
   });
 
   describe("mouseup", function() {
-    it('generates cancelable event', function(done) {
-      button.addEventListener('mouseup', function(event) {
-        expect(event.cancelable).to.eql(true);
-        done();
-      }, false);
-      trigger(button, 'mouseup');
-    });
+    itCanBeCanceled(this.title, true);
+    itBubbles(this.title, true);
   });
 
   describe("mousemove", function() {
-    it('generates non-cancelable event', function(done) {
-      button.addEventListener('mousemove', function(event) {
-        expect(event.cancelable).to.eql(false);
-        done();
-      }, false);
-      trigger(button, 'mousemove');
-    });
+    itCanBeCanceled(this.title, false);
+    itBubbles(this.title, true);
   });
 
   describe("contextmenu", function() {
-    it('generates cancelable event', function(done) {
-      button.addEventListener('contextmenu', function(event) {
-        expect(event.cancelable).to.eql(true);
-        done();
-      }, false);
-      trigger(button, 'contextmenu');
-    });
+    itCanBeCanceled(this.title, true);
+    itBubbles(this.title, true);
+  });
+
+  describe("mouseenter", function() {
+    itCanBeCanceled(this.title, true);
+    itBubbles(this.title, false);
+  });
+
+  describe("mouseleave", function() {
+    itCanBeCanceled(this.title, true);
+    itBubbles(this.title, false);
+  });
+
+  describe("show", function() {
+    itCanBeCanceled(this.title, false);
+    itBubbles(this.title, false);
   });
 
   describe("dblclick", function() {
-    it('generates cancelable event', function(done) {
-      button.addEventListener('mouseup', function(event) {
-        expect(event.cancelable).to.eql(true);
-        done();
-      }, false);
-      trigger(button, 'mouseup');
-    });
+    itCanBeCanceled(this.title, true);
+    itBubbles(this.title, true);
     it('count two clicks', function(done) {
       button.addEventListener('dblclick', function(event) {
         expect(event.cancelable).to.eql(true);

@@ -46,7 +46,9 @@
     mouseout: MOUSE_EVENT_TEMPLATE,
     mousedown: MOUSE_EVENT_TEMPLATE,
     mousemove: merge(MOUSE_EVENT_TEMPLATE, {cancelable: false}),
-    mouseup: MOUSE_EVENT_TEMPLATE
+    mouseup: MOUSE_EVENT_TEMPLATE,
+    contextmenu: MOUSE_EVENT_TEMPLATE,
+    dblclick: merge(MOUSE_EVENT_TEMPLATE, {cancelable: true, detail: 2})
   };
 
   /**
@@ -116,6 +118,8 @@
     mouseover: 'MouseEvent',
     mousemove: 'MouseEvent',
     mouseout: 'MouseEvent',
-    mouseup: 'MouseEvent'
+    mouseup: 'MouseEvent',
+    contextmenu: 'MouseEvent',
+    dblclick: 'MouseEvent'
   };
 }(window, document));

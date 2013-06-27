@@ -9,4 +9,6 @@ Create and trigger browser event
 * mousedown,
 * mouseout,
 * mousemove,
-* mouseover
+* mouseover,
+* dblclick,
+* contextmenu

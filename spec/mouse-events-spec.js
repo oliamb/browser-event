@@ -93,4 +93,31 @@ describe("trigger MouseEvents", function() {
       trigger(button, 'mousemove');
     });
   });
+
+  describe("contextmenu", function() {
+    it('generates cancelable event', function(done) {
+      button.addEventListener('contextmenu', function(event) {
+        expect(event.cancelable).to.eql(true);
+        done();
+      }, false);
+      trigger(button, 'contextmenu');
+    });
+  });
+
+  describe("dblclick", function() {
+    it('generates cancelable event', function(done) {
+      button.addEventListener('mouseup', function(event) {
+        expect(event.cancelable).to.eql(true);
+        done();
+      }, false);
+      trigger(button, 'mouseup');
+    });
+    it('count two clicks', function(done) {
+      button.addEventListener('dblclick', function(event) {
+        expect(event.cancelable).to.eql(true);
+        done();
+      }, false);
+      trigger(button, 'dblclick');
+    });
+  });
 });

@@ -10,6 +10,14 @@
     <button class="clickable">Click Me</button>
     <button class="simulate-click">Simulate</button>
 
+    <p>contextmenu</p>
+    <button class="contextmenu">Right-Click Me</button>
+    <button class="simulate-contextmenu">Simulate</button>
+
+    <p>dblclick</p>
+    <button class="dblclick">Dbl-Click Me</button>
+    <button class="simulate-dblclick">Simulate</button>
+
     <p>mouseover</p>
     <strong class="mouseover" style="background: silver">Mouse Over</strong>
     <button class="simulate-mouseover">Simulate</button>
@@ -39,6 +47,16 @@
   document.querySelector('.clickable').addEventListener('click', logEvent);
   document.querySelector('.simulate-click').addEventListener('click', function(){
     trigger(document.querySelector('.clickable'), 'click');
+  });
+
+  document.querySelector('.dblclick').addEventListener('dblclick', logEvent);
+  document.querySelector('.simulate-dblclick').addEventListener('click', function(){
+    trigger(document.querySelector('.dblclick'), 'dblclick');
+  });
+
+  document.querySelector('.contextmenu').addEventListener('contextmenu', logEvent);
+  document.querySelector('.simulate-contextmenu').addEventListener('click', function(){
+    trigger(document.querySelector('.contextmenu'), 'contextmenu');
   });
 
   document.querySelector('.mousedown').addEventListener('mousedown', logEvent);

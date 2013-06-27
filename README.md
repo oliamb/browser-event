@@ -7,4 +7,9 @@ Don't use it today.
 
 === MouseEvent ===
 
-* click: Missing coordinates support
+* click,
+* mouseup,
+* mousedown,
+* mouseout,
+* mousemove,
+* mouseover

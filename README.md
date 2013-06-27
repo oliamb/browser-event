@@ -1,7 +1,4 @@
-Create and trigger DOM Event on specified element
-
-Uncomplete and unstable library.
-Don't use it today.
+Create and trigger browser event
 
 ## Currently Supported events
 

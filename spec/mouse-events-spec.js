@@ -1,16 +1,16 @@
 var expect = chai.expect;
 
 describe("trigger MouseEvents", function() {
-  describe("click", function() {
-    var button;
-    beforeEach(function() {
-      button = document.createElement('button');
-      document.body.appendChild(button);
-    });
-    afterEach(function() {
-      document.body.removeChild(button);
-    });
+  var button;
+  beforeEach(function() {
+    button = document.createElement('button');
+    document.body.appendChild(button);
+  });
+  afterEach(function() {
+    document.body.removeChild(button);
+  });
 
+  describe("click", function() {
     it('initiates a click with the default value', function(done) {
       button.addEventListener('click', function(event) {
         expect(event.type).to.eql('click');
@@ -41,6 +41,18 @@ describe("trigger MouseEvents", function() {
         clientX: 3,
         clientY: 4
       });
+    });
+  });
+
+  describe("mouseover", function() {
+    it('generates non-cancelable mouseover', function(done) {
+      button.addEventListener('mouseover', function(event) {
+        expect(event.type).to.eql('mouseover');
+        expect(event.bubbles).to.eql(true);
+        expect(event.cancelable).to.eql(false);
+        done();
+      }, false);
+      trigger(button, 'mouseover');
     });
   });
 });

@@ -6,17 +6,27 @@
 </head>
 <body>
   <div class="sample">
+    <p>click</p>
     <button class="clickable">Click Me</button>
     <button class="simulate-click">Simulate</button>
+    <p>mouseover</p>
+    <strong class="mouseover" style="background: silver">Mouse Over</strong>
+    <button class="simulate-mouseover">Simulate</button>
   </div>
   <script>
   function logEvent(event) {
     console.log('Event Triggered:', event.type, event);
   }
-  document.querySelector('.clickable').addEventListener('click', logEvent)
+
+  document.querySelector('.clickable').addEventListener('click', logEvent);
   document.querySelector('.simulate-click').addEventListener('click', function(){
     trigger(document.querySelector('.clickable'), 'click');
-  })
+  });
+
+  document.querySelector('.mouseover').addEventListener('mouseover', logEvent);
+  document.querySelector('.simulate-mouseover').addEventListener('click', function(){
+    trigger(document.querySelector('.mouseover'), 'mouseover');
+  });
   </script>
 </body>
 </html>

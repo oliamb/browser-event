@@ -1,6 +1,6 @@
 {
   "name": "browser-event",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "Create and trigger DOM Event on specified element",
   "main": "browser-event.js",
   "scripts": {

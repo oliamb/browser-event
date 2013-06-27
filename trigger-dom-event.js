@@ -1,6 +1,45 @@
 (function(module, document){
   "use strict";
 
+  /**
+   * Trigger an event on a DOM element using the default options
+   * for the given event name, overriden by the passed options if any.
+   */
+  module.trigger = function trigger (element, name, options) {
+    return triggerEvent(element, createEvent(name, options));
+  };
+
+  /**
+   * Create an event given its name and options
+   */
+  function createEvent (name, options) {
+    var event;
+    if (!eventTypeMapping[name]) {
+      throw new Error('Unknown Event: ' + name);
+    }
+    var props = properties(name, options);
+    try {
+      event = new window[eventTypeMapping[name]](name, props);
+    } catch (e) {
+      if(e instanceof TypeError) {
+        // In case the constructor does not support MouseEvent as a constructor
+        var mapping = deprecatedConstructorMapping[eventTypeMapping[name]];
+        event = mapping.init(document.createEvent(mapping.type), name, props);
+      } else {
+        throw e;
+      }
+    }
+    return event;
+  }
+
+  /**
+   * Trigger the given event
+   */
+  function triggerEvent (element, event) {
+    element.dispatchEvent(event);
+    return event;
+  }
+
   function merge () {
     var target = {};
     for(var i = 0; i < arguments.length; i++) {
@@ -14,104 +53,66 @@
     return target;
   }
 
-  var properties = {
-    initMouseEvent: {
-      canBubble: true,
+  // Maps event type to general category of DOM events.
+  // eg. click -> MouseEvents
+  var eventTypeMapping = {
+    // Mouse Events:
+    // click, mousedown, mouseup, mouseover, mousemove, mouseout
+    click: 'MouseEvent'
+  };
+
+  var defaultProperties = {
+    MouseEvent: {
+      // canBubble: whether or not the event can bubble. Sets the value of event.bubbles.
+      bubbles: true,
+      // cancelable: whether or not the event's default action can be prevented. Sets the value of event.cancelable.
       cancelable: true,
+      // view: the Event's AbstractView. You should pass the window object here. Sets the value of event.view.
       view: window,
+      // detail: the Event's mouse click count. Sets the value of event.detail.
       detail: 1,
+      // screenX: the Event's screen x coordinate. Sets the value of event.screenX.
       screenX: 0,
+      // screenY: the Event's screen y coordinate. Sets the value of event.screenY.
       screenY: 0,
+      // clientX: the Event's client x coordinate. Sets the value of event.clientX.
       clientX: 0,
+      // clientY: the Event's client y coordinate. Sets the value of event.clientY.
       clientY: 0,
+      // ctrlKey: whether or not control key was depressed during the Event. Sets the value of event.ctrlKey.
       ctrlKey: false,
+      // altKey: whether or not alt key was depressed during the Event. Sets the value of event.altKey.
       altKey: false,
+      // shiftKey: whether or not shift key was depressed during the Event. Sets the value of event.shiftKey.
       shiftKey: false,
+      // metaKey: whether or not meta key was depressed during the Event. Sets the value of event.metaKey.
       metaKey: false,
+      // button: the Event's mouse event.button.
       button: 0,
+      // relatedTarget: the Event's related EventTarget. Only used with some event types (e.g. mouseover and mouseout). In other cases, pass null.
       relatedTarget: null
     }
   };
 
-  // Describe Events default properties.
-  // Documentation coming from MDN.
-  var events = {
-    // Mouse Events:
-    // click, mousedown, mouseup, mouseover, mousemove, mouseout
-    click: {
-      type: "MouseEvents"
+  // This map to deprecated constructor
+  // document.createEvent(type).initXYZEvent(type, p1, ..., pn)
+  var deprecatedConstructorMapping = {
+    'MouseEvent': {
+      type: 'MouseEvents',
+      init: function(event, name, p){
+        event.initMouseEvent(name,
+          p.bubbles, p.cancelable, p.view, p.detail,
+          p.screenX, p.screenY, p.clientX, p.clientY,
+          p.ctrlKey, p.altKey, p.shiftKey, p.metaKey,
+          p.button, p.relatedTarget);
+        return event;
+      }
     }
   };
 
-  var initializers = {
-    MouseEvents: function (event, name, options) {
-      var p = merge(properties.initMouseEvent, options);
-      return event.initMouseEvent(
-        name,
-        // Properties you can override in initMouseEvent:
-        // canBubble: whether or not the event can bubble. Sets the value of event.bubbles.
-        p.canBubble,
-        // cancelable: whether or not the event's default action can be prevented. Sets the value of event.cancelable.
-        p.cancelable,
-        // view: the Event's AbstractView. You should pass the window object here. Sets the value of event.view.
-        p.view,
-        // detail: the Event's mouse click count. Sets the value of event.detail.
-        p.detail,
-        // screenX: the Event's screen x coordinate. Sets the value of event.screenX.
-        p.screenX,
-        // screenY: the Event's screen y coordinate. Sets the value of event.screenY.
-        p.screenY,
-        // clientX: the Event's client x coordinate. Sets the value of event.clientX.
-        p.clientX,
-        // clientY: the Event's client y coordinate. Sets the value of event.clientY.
-        p.clientY,
-        // ctrlKey: whether or not control key was depressed during the Event. Sets the value of event.ctrlKey.
-        p.ctrlKey,
-        // altKey: whether or not alt key was depressed during the Event. Sets the value of event.altKey.
-        p.altKey,
-        // shiftKey: whether or not shift key was depressed during the Event. Sets the value of event.shiftKey.
-        p.shiftKey,
-        // metaKey: whether or not meta key was depressed during the Event. Sets the value of event.metaKey.
-        p.metaKey,
-        // button: the Event's mouse event.button.
-        p.button,
-        // relatedTarget: the Event's related EventTarget. Only used with some event types (e.g. mouseover and mouseout). In other cases, pass null.
-        p.relatedTarget
-      );
-    }
-  };
-
-  /**
-   * Create an event given its name and options
-   */
-  function createEvent (name, options) {
-    var event, properties;
-    if (!events[name]) {
-      throw new Error('Unknown Event: ' + name);
-    }
-    if (document.createEvent) {
-      event = document.createEvent(events[name].type);
-      initializers[events[name].type](event, name, options);
-    } else {
-      event = document.createEventObject();
-      event.eventType = name;
-    }
-    return event;
+  // Retrieve the default properties merged with options
+  // for the given event name.
+  function properties(name, options) {
+    return merge(defaultProperties[eventTypeMapping[name]], options);
   }
-
-  /**
-   * Trigger the given event
-   */
-  function triggerEvent (element, event) {
-    if (document.createEvent) {
-      element.dispatchEvent(event);
-    } else {
-      element.fireEvent("on" + event.eventType, event);
-    }
-    return event;
-  }
-
-  module.trigger = function trigger (element, name, options) {
-    return triggerEvent(element, createEvent(name, options));
-  };
 }(window, document));

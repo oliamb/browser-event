@@ -33,7 +33,7 @@ describe("trigger MouseEvents", function() {
         done();
       }, false);
       trigger(button, 'click', {
-        canBubble: false,
+        bubbles: false,
         cancelable: false,
         ctrlKey: true,
         screenX: 1,
